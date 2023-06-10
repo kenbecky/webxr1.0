@@ -51,7 +51,7 @@
 
             // 加载 glTF 模型
             //const modelPromise = loadModel(scene, "mm_project.glb", new BABYLON.Vector3(1, 1, 0), 0.05);
-            const modelPromise2 = loadModel(scene, "mm_project2.glb", new BABYLON.Vector3(1, 2, 0), 0.02);
+            const modelPromise2 = loadModel(scene, "mm_project2.glb", new BABYLON.Vector3(0, 0, 0), 0.02);
             //const modelPromise3 = loadModel(scene, "mm_project3.glb", new BABYLON.Vector3(1, 3, 0), 0.06);
 
             //const modelPromise4 = loadModel(scene, "mm_project4.glb", new BABYLON.Vector3(2, 1, 0), 0.1);
@@ -155,18 +155,38 @@
                     //Math.random() - 0.5 // 随机 z 轴方向
                 ).normalize();
                 document.addEventListener("keydown", function(event) {
-                    if (event.key === "ArrowRight") {
-                        object.position.x += 0.5;
+                    if (event.key === 'a' || event.key === 'A') {
+                        //moveObjectToPosition(-5, 0, 5);
+                        object.position.x = -5;
+                        object.position.z = 5
+                    }
+                    if (event.key === 'b' || event.key === 'B') {
+                        //moveObjectToPosition(5, 0, 5);
+                        object.position.x = 5;
+                        object.position.z = 5
+                    }
+                    if (event.key === 'c' || event.key === 'C') {
+                        //moveObjectToPosition(-5, 0, -5);
+                        object.position.x = -5;
+                        object.position.z = -5
+                    }
+                    if (event.key === 'd' || event.key === 'D') {
+                        //moveObjectToPosition(5, 0, -5);
+                        object.position.x = 5;
+                        object.position.z = -5
+                    }
+                    /*if (event.key === "ArrowRight") {
+                        object.position.x += 1;
                     }
                     if (event.key === "ArrowLeft") {
-                        object.position.x -= 0.5;
+                        object.position.x -= 1;
                     }
                     if (event.key === "ArrowUp") {
-                        object.position.z += 0.5;
+                        object.position.z += 1;
                     }
                     if (event.key === "ArrowDown") {
-                        object.position.z -= 0.5;
-                    }
+                        object.position.z -= 1;
+                    }*/
                     character.style.left = object.position.x + "px";
                     character.style.top = object.position.z + "px";
                 });
@@ -186,6 +206,73 @@
                 return object;
             });
         }
+        
+        /*function moveObjectToPosition(x, y, z) {
+            if (object.position.x === x && object.position.z === z) {
+                //console.log("Object has reached the destination!");
+                return;
+            }
+            //console.log("Moving object to position:", x, y, z);
+
+            if (x > object.position.x) {
+                object.position.x += 1;
+                setTimeout(delayedFunction, 200);
+                if(x > object.position.x){
+                    moveObjectToPosition(x, y, z)
+                }
+            }
+
+            else if(x < object.position.x){
+                object.position.x -= 1;
+                setTimeout(delayedFunction, 200);
+                if(x < object.position.x){
+                    moveObjectToPosition(x, y, z)
+                }
+            }
+            else if (z > object.position.z){
+                object.position.z += 1;
+                setTimeout(function() {
+                    moveObjectToPosition(x, y, z);
+                }, 200);
+            }
+            else if (z < object.position.z){
+                object.position.z -= 1;
+                setTimeout(function() {
+                    moveObjectToPosition(x, y, z);
+                }, 200);
+            }
+
+            /*if (x < object.position.x){
+                for (let i = object.position.x; i < x; i++) {
+                    object.position.x = i;
+                    setTimeout(delayedFunction, 200);
+                }
+            }
+            else if (x > object.position.x){
+                for (let i = object.position.x; i > x; i--) {
+                    object.position.x = i;
+                    setTimeout(delayedFunction, 200);
+                }
+            }
+            if (z < object.position.z){
+                for (let j = object.position.z; i < z; i++) {
+                    object.position.z = i;
+                    setTimeout(delayedFunction, 200);
+                }
+            }
+            else if (z > object.position.z){
+                for (let j = object.position.z; i > z; i--) {
+                    object.position.z = i;
+                    setTimeout(delayedFunction, 200);
+                }
+            }
+
+
+            // 執行將物體移動到指定位置的程式碼
+            // 這裡只是一個範例，您需要根據您的需求來實現
+            //console.log('Moving object to position:', x, y, z);
+            // 在這裡可以加入您的移動邏輯，例如改變物體的位置屬性或應用動畫效果等
+            }*/
     </script>
 </body>
 
