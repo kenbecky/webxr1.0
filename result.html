@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Result</title>
+</head>
+<body>
+    <h1>Quiz Result</h1>
+    
+    <script>
+        // Read answers from localStorage
+        var answers = JSON.parse(localStorage.getItem('answers'));
+        
+        if (answers && answers.length > 0) {
+            document.write('<p>Your answers:</p>');
+            document.write('<ul>');
+            
+            for (var i = 0; i < answers.length; i++) {
+                document.write('<li>' + answers[i] + '</li>');
+            }
+            
+            document.write('</ul>');
+        } else {
+            document.write('<p>No answers found.</p>');
+        }
+        
+        // Clear answers from localStorage
+        localStorage.removeItem('answers');
+    </script>
+</body>
+</html>

@@ -147,30 +147,31 @@
             return BABYLON.SceneLoader.ImportMeshAsync("", "", modelPath, scene).then(function (result) {
                 const object = result.meshes[0];
                 object.position = position;
-
+                var answers = JSON.parse(localStorage.getItem('answers'));
+                console.log(answers);
                 const direction = new BABYLON.Vector3(
 
                     //Math.random() - 0.5, // 随机 x 轴方向
                     //0,
                     //Math.random() - 0.5 // 随机 z 轴方向
                 ).normalize();
-                document.addEventListener("keydown", function(event) {
-                    if (event.key === 'a' || event.key === 'A') {
+                if (answers && answers.length > 0) {
+                    if (answers[0] === 'a') {
                         //moveObjectToPosition(-5, 0, 5);
                         object.position.x = -5;
                         object.position.z = 5
                     }
-                    if (event.key === 'b' || event.key === 'B') {
+                    if (answers[0] === 'b') {
                         //moveObjectToPosition(5, 0, 5);
                         object.position.x = 5;
                         object.position.z = 5
                     }
-                    if (event.key === 'c' || event.key === 'C') {
+                    if (answers[0] === 'c') {
                         //moveObjectToPosition(-5, 0, -5);
                         object.position.x = -5;
                         object.position.z = -5
                     }
-                    if (event.key === 'd' || event.key === 'D') {
+                    if (answers[0] === 'd') {
                         //moveObjectToPosition(5, 0, -5);
                         object.position.x = 5;
                         object.position.z = -5
@@ -187,9 +188,11 @@
                     if (event.key === "ArrowDown") {
                         object.position.z -= 1;
                     }*/
-                    character.style.left = object.position.x + "px";
-                    character.style.top = object.position.z + "px";
-                });
+                    //character.style.left = object.position.x + "px";
+                    //character.style.top = object.position.z + "px";
+                    localStorage.removeItem('answers');
+                    
+                }
 
 
                 scene.onBeforeRenderObservable.add(function () {
@@ -273,6 +276,14 @@
             //console.log('Moving object to position:', x, y, z);
             // 在這裡可以加入您的移動邏輯，例如改變物體的位置屬性或應用動畫效果等
             }*/
+           
+            console.log("start waiting...");
+
+            setTimeout(function() {
+                console.log("waited 10sec");
+                window.location.href = 'option.html';
+            }, 10000);
+
     </script>
 </body>
 

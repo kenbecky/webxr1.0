@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kahoot-like Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        .question {
+            margin-bottom: 20px;
+        }
+        
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .option {
+            width: 45%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .option:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .option label {
+            display: block;
+        }
+        
+        .option input[type="radio"] {
+            display: none;
+        }
+        
+        .submit-btn {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kahoot-like Quiz</h1>
+        
+        <div class="question" id="question1">
+            <h3>Question 1: What is the capital of France?</h3>
+            <div class="options">
+                <div class="option">
+                    <label for="q1a">
+                        <input type="radio" name="q1" id="q1a" value="a">
+                        A) Paris
+                    </label>
+                </div>
+                <div class="option">
+                    <label for="q1b">
+                        <input type="radio" name="q1" id="q1b" value="b">
+                        B) London
+                    </label>
+                </div>
+                <div class="option">
+                    <label for="q1c">
+                        <input type="radio" name="q1" id="q1c" value="c">
+                        C) Rome
+                    </label>
+                </div>
+                <div class="option">
+                    <label for="q1d">
+                        <input type="radio" name="q1" id="q1d" value="d">
+                        D) Madrid
+                    </label>
+                </div>
+            </div>
+            <div class="submit-btn">
+                <button onclick="submitQuiz()">Next</button>
+            </div>
+        </div>
+        
+        <div class="question" id="question2" style="display: none;">
+            <h3>Question 2: Who painted the Mona Lisa?</h3>
+            <div class="options">
+                <div class="option">
+                    <label for="q2a">
+                        <input type="radio" name="q2" id="q2a" value="a">
+                        A) Leonardo da Vinci
+                    </label>
+                </div>
+                <div class="option">
+                    <label for="q2b">
+                        <input type="radio" name="q2" id="q2b" value="b">
+                        B) Pablo Picasso
+                    </label>
+                </div>
+                <div class="option">
+                    <label for="q2c">
+                        <input type="radio" name="q2" id="q2c" value="c">
+                        C) Vincent van Gogh
+                    </label>
+                </div>
+                <div class="option">
+                    <label for="q2d">
+                        <input type="radio" name="q2" id="q2d" value="d">
+                        D) Michelangelo
+                    </label>
+                </div>
+            </div>
+            <div class="submit-btn">
+                <button onclick="submitQuiz()">Submit</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        var currentQuestion = 1;
+        var totalQuestions = 2;
+        var answers = [];
+        
+        function showQuestion(questionNumber) {
+            var currentQuestionDiv = document.getElementById('question' + questionNumber);
+            currentQuestionDiv.style.display = 'block';
+        }
+        
+        function hideQuestion(questionNumber) {
+            var currentQuestionDiv = document.getElementById('question' + questionNumber);
+            currentQuestionDiv.style.display = 'none';
+        }
+        
+        function nextQuestion() {
+            var selectedOption = document.querySelector('input[name="q' + currentQuestion + '"]:checked');
+            
+            if (selectedOption) {
+                answers.push(selectedOption.value);
+                hideQuestion(currentQuestion);
+                currentQuestion++;
+                
+                if (currentQuestion <= totalQuestions) {
+                    showQuestion(currentQuestion);
+                } else {
+                    submitQuiz();
+                }
+            } else {
+                alert('Please select an option.');
+            }
+        }
+        
+        function submitQuiz() {
+            var selectedOption = document.querySelector('input[name="q' + currentQuestion + '"]:checked');
+            
+            if (selectedOption) {
+                answers.push(selectedOption.value);
+            }
+            
+            // Store answers in localStorage
+            localStorage.setItem('answers', JSON.stringify(answers));
+            
+            // Redirect to the babylon.html page
+            window.location.href = 'main.html';
+            
+        }
+        // Show the first question initially
+        showQuestion(currentQuestion);
+    </script>
+</body>
+</html>
