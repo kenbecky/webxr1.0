@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="draw.css" />
+    <title>Drawing Board</title>
+    <script src="C:\Projects\webxr1.0\draw.js"></script>
+</head>
+<body>
+    <h1>attempt at Paint for svg</h1>
+    <p>I tried to do something like Microsoft Paint, but for an svg, 
+    using a lot of JavaScript code.
+    </p>
+    <div>
+    <p id="button-holder">
+        <button type="button" id="undo" disabled>undo</button>
+        <button type="button" id="redo" disabled>redo</button>
+    </p>
+    <form id="controls">
+        <fieldset id="action">
+        <legend>action</legend>
+        <label>
+            <input type="radio" name="action" value="draw" checked />
+            <span>draw</span>
+        </label>
+        <label>
+            <input type="radio" name="action" value="move" />
+            <span>move</span>
+        </label>
+        <label>
+            <input type="radio" name="action" value="delete" />
+            <span>delete</span>
+        </label>
+        </fieldset>
+        <fieldset id="shape">
+        <legend>shape</legend>
+        <label id="none">
+            <input type="radio" name="shape" value="none" checked />
+            <span>none</span>
+        </label>
+        <label id="rectangle">
+            <input type="radio" name="shape" value="rect" />
+            <span>rectangle</span>
+        </label>
+        <label id="circle">
+            <input type="radio" name="shape" value="circle" />
+            <span>circle</span>
+        </label>
+        <label id="ellipse">
+            <input type="radio" name="shape" value="ellipse" />
+            <span>ellipse</span>
+        </label>
+        <label id="line">
+            <input type="radio" name="shape" value="line" />
+            <span>line</span>
+        </label>
+        </fieldset>
+        <fieldset id="color">
+        <legend>color</legend>
+        <label id="strokeColor">
+            <input type="color" name="stroke" value="#DD0000" />
+            <span>stroke color</span>
+        </label>
+        <br />
+        <label>
+            <input type="color" name="fill" value="#007700" />
+            <span>fill color</span>
+        </label>
+        <label id="fill" class="with">
+            <input type="checkbox" name="fill" />
+            <span>fill</span>
+        </label>
+        <br />
+        <label id="background-color">
+            <input type="color" name="background" value="#FFFFFF" />
+            <span>background</span>
+        </label>
+        <label class="with">
+            <input type="checkbox" name="background" />
+            <span>background</span>
+        </label>
+        <label>
+            <button type="button" id="backgroundBtn">
+            set background color to fill color
+            </button>
+        </label>
+        </fieldset>
+        <fieldset>
+        <legend>width</legend>
+        <label id="stroke-width">
+            <input type="number" name="stroke-width" size="3" min="0" max="255" />
+            <!-- <span>stroke width</span> -->
+            <div class="dropdown">
+            <span>stroke width</span>
+            <ul class="dropdown-content stroke-demo">
+                <li>none</li>
+                <li><span class="demo" style="height: 1px;"></span></li>
+                <li><span class="demo" style="height: 3px;"></span></li>
+                <li><span class="demo" style="height: 5px;"></span></li>
+                <li><span class="demo" style="height: 8px;"></span></li>
+            </ul>
+        </label>
+        </fieldset>
+        <fieldset id="linecap" style="display: none;">
+        <legend>linecap</legend>
+        <label>
+            <input type="radio" name="stroke-linecap" value="" checked />
+            <span>default</span>
+        </label>
+        <label>
+            <input type="radio" name="stroke-linecap" value="butt" />
+            <span>butt</span>
+        </label>
+        <label>
+            <input type="radio" name="stroke-linecap" value="round" />
+            <span>round</span>
+        </label>
+        <label>
+            <input type="radio" name="stroke-linecap" value="square" />
+            <span>square</span>
+        </label>
+        </fieldset>
+    </form>
+    <span id="coordinates">(???, ???)</span>
+    </div>
+    <div id="svg-container" style="width: 256px; height: 256px" class="resizable">
+    <svg width="256" height="256" viewbox="0 0 255 255" xmlns="http://www.w3.org/2000/svg">
+    </svg>
+    </div>
+    <div>
+    <button id="display-code" type="button">display current svg code</button>
+    <button id="resizeBtn" type="button">resize svg</button>
+    <span>
+        <a id="downloader"><button type="button" id="downloadBtn">download</button></a> filename:
+        <input type="text" class="filename" value="svg.svg"/>
+    </span>
+    <pre id="svg-code" tabindex="-1" class="invisible">code here
+    </pre>
+    </div>
+    <button id="toCanvasBtn">to canvas element</button>
+</body>
