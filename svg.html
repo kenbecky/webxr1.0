@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>SVG test</title>
+    </head>
+    <body>
+        <svg id="svg" width="640" height="480" style="border:3px solid #000000;">
+        <!--
+            <line x1="50" y1="50" x2="350" y2="350" stroke="blue" stroke-width="3"></line>
+            <circle cx="200" cy="50" r="50" fill="#ffcc00"></circle>
+            <rect x="150" y="100" width="100" height="100" fill="red"></rect>
+            <polygon points="150,200,250,200,200,300" fill="pink" stroke="yellow" stroke-width="3"></polygon>
+            <text x="100" y="400" fill="green" font-weight="bold" font-size="45">Hello World</text>
+        -->
+        </svg>
+        <button type="button" x="645" y="0"   onclick="clickLine();">line</button>
+        <button type="button" x="645" y="50"  onclick="clickCircle();">circle</button>
+        <button type="button" x="645" y="100" onclick="clickRect();">rect</button>
+        <button type="button" x="645" y="150" onclick="clickReset();">reset</button>
+        <script>
+            window.onload=function(){
+                svg=document.getElementById("svg");
+                svg.addEventListener("mousedown", mousedownSvg);
+                /*
+                //<line></line>
+                var line=document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", 50);
+                line.setAttribute("y1", 50);
+                line.setAttribute("x2", 350);
+                line.setAttribute("y2", 350);
+                line.setAttribute("stroke", "red");
+                line.setAttribute("stroke-width", 2);
+                svg.appendChild(line);
+                //circle
+                var circle=document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute("cx", 200);
+                circle.setAttribute("cy", 50);
+                circle.setAttribute("r", 50);
+                circle.setAttribute("fill", "pink");
+                svg.appendChild(circle);
+
+                //rect
+                var rect=createSvgElement("rect", {
+                    "x":150, "y":100,
+                    "width":100, "height":100,
+                    "fill":"red"
+                });
+                svg.appendChild(rect);
+
+                //polygen
+                var polygon=createSvgElement("polygon", {
+                    "points":"150,200,250,200,200,300",
+                    "fill":"green", "stroke":"yellow",
+                    "stroke-width":3
+                });
+                svg.appendChild(polygon);
+                */
+            };
+
+            /*var clickLine = function(){
+                alert('Line!!!');
+                var create=mousedownSvg("line");
+            }
+            var clickCircle = function(e){
+                //alert('Circle!!!');
+                var create=mousedownSvg("line");
+            }
+            var clickRect = function(e){
+                alert('Rect!!!');
+                var create=mousedownSvg("line");
+
+            }
+            var clickReset = function(e){
+                alert('Reset!!!');
+                var create=mousedownSvg("line");
+            }*/
+
+
+            
+            function mousedownSvg(e){
+                //alert('gotgot!!!');
+                var x=e.clientX;
+                var y=e.clientY;
+                var bounding=this.getBoundingClientRect();
+                x=x-bounding.left;
+                y=y-bounding.top;
+                // find tag
+                /*if (tag === "line"){
+                    var line=createSvgElement("line", {
+                        "x1":x, "y1":y, "x2":x, "y2":y, "stroke":"red", "stroke-width":3
+                    });
+                    this.appendChild(line);
+
+                    //滑鼠移動在做的事
+                    var drag=function(e){
+                        line.setAttribute("x2", e.clientX-bounding.left);
+                        line.setAttribute("y2", e.clientY-bounding.top);
+                    };
+                    //滑鼠放開後發生的事
+                    var drop=function(e){
+                        document.removeEventListener("mousemove", drag);
+                        document.removeEventListener("mouseup", drop);
+                    };
+                }*/
+
+                //線條
+                //var line=createSvgElement("line", {
+                //    "x1":x, "y1":y, "x2":x, "y2":y, "stroke":"red", "stroke-width":3
+                //});
+                //this.appendChild(line);
+
+                //圓形
+                //var circle=createSvgElement("circle", {
+                //    "cx":x, "cy":y, "r":0, "fill":"yellow"
+                //});
+                //this.appendChild(circle);
+
+                //長方形
+                var rect=createSvgElement("rect", {
+                    "x":x, "y":y, "width":x-x, "height":y-y, "fill":"green"
+                });
+                this.appendChild(rect);
+
+                //滑鼠移動在做的事
+                var drag=function(e){
+                    //線條
+                    //line.setAttribute("x2", e.clientX-bounding.left);
+                    //line.setAttribute("y2", e.clientY-bounding.top);
+
+                    //圓形(畢氏定理無法使用)
+                    //畢氏定理: math.sqrt(math.pow((e.clientX-x),2)+math.pow((e.clientY-y),2))
+                    //x,y相加/2: (e.clientX-x+e.clientY-y)/2
+
+                    //circle.setAttribute("r", (e.clientX-x+e.clientY-y)/2);
+
+                    //長方形
+                    rect.setAttribute("width", e.clientX-x);
+                    rect.setAttribute("height", e.clientY-y);
+                };
+                //滑鼠放開後發生的事
+                var drop=function(e){
+                    document.removeEventListener("mousemove", drag);
+                    document.removeEventListener("mouseup", drop);
+                };
+
+
+
+                /*if (tag === "rect"){
+                    var line=createSvgElement("line", {
+                        "x1":x, "y1":y, "x2":x, "y2":y, "stroke":"red", "stroke-width":3
+                    });
+                    this.appendChild(line);
+                }*/
+                /*if (tag === line){
+                    var line=createSvgElement("line", {
+                        "x1":x, "y1":y, "x2":x, "y2":y, "stroke":"red", "stroke-width":3
+                    });
+                    this.appendChild(line);
+                }*/
+                
+                
+                document.addEventListener("mousemove", drag);
+                document.addEventListener("mouseup", drop);
+            }
+
+
+            function createSvgElement(tagName, attrs){
+                var element=document.createElementNS("http://www.w3.org/2000/svg", tagName);
+                for(var name in attrs){
+                    element.setAttribute(name, attrs[name]);
+                }
+                return element;
+            }
+        </script>
+    </body> 
+</html>
