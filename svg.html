@@ -14,11 +14,66 @@
             <text x="100" y="400" fill="green" font-weight="bold" font-size="45">Hello World</text>
         -->
         </svg>
+        <!--
         <button type="button" x="645" y="0"   onclick="clickLine();">line</button>
         <button type="button" x="645" y="50"  onclick="clickCircle();">circle</button>
         <button type="button" x="645" y="100" onclick="clickRect();">rect</button>
         <button type="button" x="645" y="150" onclick="clickReset();">reset</button>
+        -->
         <script>
+            /*const canvas = document.querySelector("canvas");
+            ctx = canvas.getContext("2d");
+
+            let prevMouseX, prevMouseY, snapshot,
+            isDrawing = false,
+            selectedTool = "brush",
+            brushWidth = 5,
+            selectedColor = "#000";
+
+            canvas.addEventListener("mousemove", drawing);
+
+            window.addEventListener("load", () => {
+                // setting canvas width/height.. offsetwidth/height returns viewable width/height of an element
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+                setCanvasBackground();
+            });
+            
+            const startDraw = (e) => {
+                isDrawing = true;
+                prevMouseX = e.offsetX; // passing current mouseX position as prevMouseX value
+                prevMouseY = e.offsetY; // passing current mouseY position as prevMouseY value
+                ctx.beginPath(); // creating new path to draw
+                ctx.lineWidth = brushWidth; // passing brushSize as line width
+                ctx.strokeStyle = selectedColor; // passing selectedColor as stroke style
+                ctx.fillStyle = selectedColor; // passing selectedColor as fill style
+                // copying canvas data & passing as snapshot value.. this avoids dragging the image
+                snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            }
+
+            const drawing = (e) => {
+                if(!isDrawing) return; // if isDrawing is false return from here
+                ctx.putImageData(snapshot, 0, 0); // adding copied canvas data on to this canvas
+
+                if(selectedTool === "brush" || selectedTool === "eraser") {
+                    // if selected tool is eraser then set strokeStyle to white 
+                    // to paint white color on to the existing canvas content else set the stroke color to selected color
+                    ctx.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor;
+                    ctx.lineTo(e.offsetX, e.offsetY); // creating line according to the mouse pointer
+                    ctx.stroke(); // drawing/filling line with color
+                } else if(selectedTool === "rectangle"){
+                    drawRect(e);
+                } else if(selectedTool === "circle"){
+                    drawCircle(e);
+                } else {
+                    drawTriangle(e);
+                }
+            }
+            canvas.addEventListener("mousedown", startDraw);
+            canvas.addEventListener("mousemove", drawing);
+            canvas.addEventListener("mouseup", () => isDrawing = false);*/
+
+
             window.onload=function(){
                 svg=document.getElementById("svg");
                 svg.addEventListener("mousedown", mousedownSvg);
@@ -57,6 +112,7 @@
                 svg.appendChild(polygon);
                 */
             };
+
 
             /*var clickLine = function(){
                 alert('Line!!!');
@@ -105,10 +161,10 @@
                 }*/
 
                 //線條
-                //var line=createSvgElement("line", {
-                //    "x1":x, "y1":y, "x2":x, "y2":y, "stroke":"red", "stroke-width":3
-                //});
-                //this.appendChild(line);
+                var line=createSvgElement("line", {
+                    "x1":x, "y1":y, "x2":x, "y2":y, "stroke":"red", "stroke-width":3
+                });
+                this.appendChild(line);
 
                 //圓形
                 //var circle=createSvgElement("circle", {
@@ -117,16 +173,22 @@
                 //this.appendChild(circle);
 
                 //長方形
-                var rect=createSvgElement("rect", {
-                    "x":x, "y":y, "width":x-x, "height":y-y, "fill":"green"
-                });
-                this.appendChild(rect);
+                //var rect=createSvgElement("rect", {
+                //    "x":x, "y":y, "width":x-x, "height":y-y, "fill":"green"
+                //});
+                //this.appendChild(rect);
+
+                //不規則(未完成)
+                //var point=createSvgElement("circle", {
+                //   "cx":x, "cy":y, "r":2, "fill":"red"
+                //});
+                //this.appendChild(point);
 
                 //滑鼠移動在做的事
                 var drag=function(e){
                     //線條
-                    //line.setAttribute("x2", e.clientX-bounding.left);
-                    //line.setAttribute("y2", e.clientY-bounding.top);
+                    line.setAttribute("x2", e.clientX-bounding.left);
+                    line.setAttribute("y2", e.clientY-bounding.top);
 
                     //圓形(畢氏定理無法使用)
                     //畢氏定理: math.sqrt(math.pow((e.clientX-x),2)+math.pow((e.clientY-y),2))
@@ -135,8 +197,17 @@
                     //circle.setAttribute("r", (e.clientX-x+e.clientY-y)/2);
 
                     //長方形
-                    rect.setAttribute("width", e.clientX-x);
-                    rect.setAttribute("height", e.clientY-y);
+                    //rect.setAttribute("width", e.clientX-x);
+                    //rect.setAttribute("height", e.clientY-y);
+
+                    //不規則(未完成)
+                    //point.setAttribute("cx", e.clientX-r);
+                    //point.setAttribute("cy", e.clientY-r);
+                    //point=createSvgElement("circle", {
+                    //    "cx":x, "cy":y, "r":2, "fill":"red"
+                    //});
+                    //this.appendChild(point);
+                    
                 };
                 //滑鼠放開後發生的事
                 var drop=function(e){
@@ -144,7 +215,8 @@
                     document.removeEventListener("mouseup", drop);
                 };
 
-
+                document.addEventListener("mousemove", drag);
+                document.addEventListener("mouseup", drop);
 
                 /*if (tag === "rect"){
                     var line=createSvgElement("line", {
@@ -160,8 +232,7 @@
                 }*/
                 
                 
-                document.addEventListener("mousemove", drag);
-                document.addEventListener("mouseup", drop);
+                
             }
 
 
