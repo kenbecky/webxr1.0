@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Another Page</title>
+</head>
+
+<body>
+    <svg id="svgContainer" style="background-color: #EFF;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="600" height="400"></svg>
+
+    <script>
+        // 获取URL参数
+        var urlParams = new URLSearchParams(window.location.search);
+        var svgData = urlParams.get("svg");
+
+        // 解码SVG内容
+        var decodedData = decodeURIComponent(svgData);
+
+        // 在SVG容器中显示SVG内容
+        var svgContainer = document.getElementById("svgContainer");
+        svgContainer.innerHTML = decodedData;
+    </script>
+</body>
+</html>
