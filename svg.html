@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <title>SVG test</title>
+        <script src="./lib/scribby.js"></script>
     </head>
     <body>
         <svg id="svg" width="640" height="480" style="border:3px solid #000000;">
@@ -14,6 +15,8 @@
             <text x="100" y="400" fill="green" font-weight="bold" font-size="45">Hello World</text>
         -->
         </svg>
+        <script>  var scr = new Scribby(document.getElementById("svgElement"));  </script>
+        <button onClick="exportSVG()">Next</button>
         <!--
         <button type="button" x="645" y="0"   onclick="clickLine();">line</button>
         <button type="button" x="645" y="50"  onclick="clickCircle();">circle</button>
@@ -21,6 +24,29 @@
         <button type="button" x="645" y="150" onclick="clickReset();">reset</button>
         -->
         <script>
+            function exportSVG() {
+                // 获取SVG元素
+                var svgElement = document.getElementById("svg");
+
+                var svgData = new Blob([svgElement.outerHTML], { type: "image/svg+xml;charset=utf-8" });
+
+                // 创建一个下载链接
+                var link = document.createElement("a");
+                link.href = URL.createObjectURL(svgData);
+                link.download = "drawing.svg"; // 设置文件名
+
+                // 将链接添加到页面，并点击它来下载SVG文件
+                document.body.appendChild(link);
+                link.click();
+
+                // 清理资源
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+                // 将SVG内容作为URL参数传递给另一个HTML页面
+                //var encodedData = encodeURIComponent(svgElement.outerHTML);
+                //var url = "receive.html?svg=" + encodedData;
+                //window.location.href = url;
+            }
             /*const canvas = document.querySelector("canvas");
             ctx = canvas.getContext("2d");
 
