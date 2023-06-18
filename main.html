@@ -51,7 +51,7 @@
 
             // 加载 glTF 模型
             //const modelPromise = loadModel(scene, "mm_project.glb", new BABYLON.Vector3(1, 1, 0), 0.05);
-            const modelPromise2 = loadModel(scene, "mm_project2.glb", new BABYLON.Vector3(0, 0, 0), 0.02);
+            const modelPromise2 = loadModel(scene, "stickman.glb", new BABYLON.Vector3(0, 1, 0), 0.02);
             //const modelPromise3 = loadModel(scene, "mm_project3.glb", new BABYLON.Vector3(1, 3, 0), 0.06);
 
             //const modelPromise4 = loadModel(scene, "mm_project4.glb", new BABYLON.Vector3(2, 1, 0), 0.1);
@@ -148,6 +148,7 @@
             return BABYLON.SceneLoader.ImportMeshAsync("", "", modelPath, scene).then(function (result) {
                 const object = result.meshes[0];
                 object.position = position;
+                object.scaling = new BABYLON.Vector3(0.2, 0.2, 0.2);//圖片大小
 
                 const direction = new BABYLON.Vector3(
 

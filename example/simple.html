@@ -5,24 +5,41 @@
 </head>
 
 <body>
+	<div>
+		<div style="background-color:#00C4FF ; width:600px;">
+			<svg id="svgElement" style="background-color: transparent;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="600" height="400" ></svg>
+		</div>
+	</div>
+	<script>  var scr = new Scribby(document.getElementById("svgElement"));  </script>
+	<script>
+		function exportSVG() {
+				// 获取SVG元素
+				var svgElement = document.getElementById("svgElement");
 
-<svg id="svgElement" style="background-color: #EFF;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="600" height="400" ></svg>
+				var svgData = new Blob([svgElement.outerHTML], { type: "image/svg+xml;charset=utf-8" });
 
-<script>  var scr = new Scribby(document.getElementById("svgElement"));  </script>
-<script>
-	function exportSVG() {
-			// 获取SVG元素
-			var svgElement = document.getElementById("svgElement");
+				// 创建一个下载链接
+				var link = document.createElement("a");
+				link.href = URL.createObjectURL(svgData);
+				link.download = "drawing.svg"; // 设置文件名
 
-			// 将SVG内容作为URL参数传递给另一个HTML页面
-			var encodedData = encodeURIComponent(svgElement.outerHTML);
-			var url = "receive.html?svg=" + encodedData;
-			window.location.href = url;
-		}
-</script>
-<div>
-	<button onClick="exportSVG()">Next</button>
-</div>
+				// 将链接添加到页面，并点击它来下载SVG文件
+				document.body.appendChild(link);
+				link.click();
+
+				// 清理资源
+				document.body.removeChild(link);
+				URL.revokeObjectURL(link.href);
+				
+				// 将SVG内容作为URL参数传递给另一个HTML页面
+				var encodedData = encodeURIComponent(svgElement.outerHTML);
+				var url = "receive.html?svg=" + encodedData;
+				window.location.href = url;
+			}
+	</script>
+	<div>
+		<button onClick="exportSVG()">Next</button>
+	</div>
   
 
 </body>
