@@ -161,16 +161,16 @@
                 }*/
 
                 //線條
-                var line=createSvgElement("line", {
-                    "x1":x, "y1":y, "x2":x, "y2":y, "stroke":"red", "stroke-width":3
-                });
-                this.appendChild(line);
+                //var line=createSvgElement("line", {
+                //    "x1":x, "y1":y, "x2":x, "y2":y, "stroke":"red", "stroke-width":3
+                //});
+                //this.appendChild(line);
 
                 //圓形
-                //var circle=createSvgElement("circle", {
-                //    "cx":x, "cy":y, "r":0, "fill":"yellow"
-                //});
-                //this.appendChild(circle);
+                var circle=createSvgElement("circle", {
+                    "cx":x, "cy":y, "r":0, "fill":"yellow"
+                });
+                this.appendChild(circle);
 
                 //長方形
                 //var rect=createSvgElement("rect", {
@@ -187,14 +187,14 @@
                 //滑鼠移動在做的事
                 var drag=function(e){
                     //線條
-                    line.setAttribute("x2", e.clientX-bounding.left);
-                    line.setAttribute("y2", e.clientY-bounding.top);
+                    //line.setAttribute("x2", e.clientX-bounding.left);
+                    //line.setAttribute("y2", e.clientY-bounding.top);
 
                     //圓形(畢氏定理無法使用)
                     //畢氏定理: math.sqrt(math.pow((e.clientX-x),2)+math.pow((e.clientY-y),2))
                     //x,y相加/2: (e.clientX-x+e.clientY-y)/2
 
-                    //circle.setAttribute("r", (e.clientX-x+e.clientY-y)/2);
+                    circle.setAttribute("r", (e.clientX-x+e.clientY-y)/2);
 
                     //長方形
                     //rect.setAttribute("width", e.clientX-x);
