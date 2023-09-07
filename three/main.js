@@ -15,29 +15,65 @@ document.body.appendChild( renderer.domElement );
 
 camera.position.z = 1000;
 
-//const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-//const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-//const cube = new THREE.Mesh( geometry, material );
+let group; // 声明一个全局变量
 
-//scene.add( cube );
+// instantiate a loader
+const loader = new SVGLoader();
 
-/*const loader = new SVGLoader();
-const svgData = loader.load('main.svg');
-const shapes = svgData.paths.map((path) => {
-    const shape = path.toShapes(true);
-    return shape;
-  });
+// 获取 URL 中的查询参数
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
 
-  const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-  shapes.forEach((shape) => {
-    const geometry = new THREE.ShapeGeometry(shape);
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
-  });*/
+const svgData = urlParams.get('svg');
 
-//const textureLoader = new THREE.TextureLoader();
-//var texture = textureLoader.load('map.png');
-// 纹理对象Texture赋值给场景对象的背景属性.background
+
+// load a SVG resource
+loader.load(
+	// resource URL
+	'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgData),
+	// called when the resource is loaded
+	function ( data ) {
+		const paths = data.paths;
+
+		group = new THREE.Group();
+
+		for ( let i = 0; i < paths.length; i ++ ) {
+
+			const path = paths[ i ];
+
+			const material = new THREE.MeshBasicMaterial( {
+				color: 0xff0000,
+				side: THREE.DoubleSide,
+				depthWrite: false
+			} );
+
+			const shapes = SVGLoader.createShapes( path );
+
+			for ( let j = 0; j < shapes.length; j ++ ) {
+
+				const shape = shapes[ j ];
+				const geometry = new THREE.ShapeGeometry( shape );
+				const mesh = new THREE.Mesh( geometry, material );
+				group.add( mesh );
+			}
+		}
+		scene.add( group );
+
+	},
+	// called when loading is in progresses
+	function ( xhr ) {
+
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'An error happened' );
+
+	}
+);
+
 
 const material = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 100 });
 
@@ -50,7 +86,6 @@ points.push( new THREE.Vector3( 0, -10000, 0 ) );
 var geometry = new THREE.BufferGeometry().setFromPoints( points );
 var line = new THREE.Line( geometry, material );
 scene.add( line );
-
 
 const textloader = new FontLoader();
 textloader.load('three_js/examples/fonts/helvetiker_regular.typeface.json', function (font) {
@@ -96,58 +131,7 @@ textloader.load('three_js/examples/fonts/helvetiker_regular.typeface.json', func
 	}
 });
 
-let group; // 声明一个全局变量
-
-// instantiate a loader
-const loader = new SVGLoader();
-
-// load a SVG resource
-loader.load(
-	// resource URL
-	'stick.svg',
-	// called when the resource is loaded
-	function ( data ) {
-
-		const paths = data.paths;
-		group = new THREE.Group();
-
-		for ( let i = 0; i < paths.length; i ++ ) {
-
-			const path = paths[ i ];
-
-			const material = new THREE.MeshBasicMaterial( {
-				color: 0x00ff00,
-				side: THREE.DoubleSide,
-				depthWrite: false
-			} );
-
-			const shapes = SVGLoader.createShapes( path );
-
-			for ( let j = 0; j < shapes.length; j ++ ) {
-
-				const shape = shapes[ j ];
-				const geometry = new THREE.ShapeGeometry( shape );
-				const mesh = new THREE.Mesh( geometry, material );
-				group.add( mesh );
-			}
-		}
-		scene.add( group );
-	},
-	// called when loading is in progresses
-	function ( xhr ) {
-
-		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-	},
-	// called when loading has errors
-	function ( error ) {
-
-		console.log( 'An error happened' );
-
-	}
-);
-
-const fontloader = new FontLoader();
+camera.lookAt( 0, 0, 0 );
 
 function animate() {
 
@@ -156,7 +140,7 @@ function animate() {
 	if (group) { // 检查 group 是否存在
 		group.rotation.y += 0.005;
 	}
-	camera.lookAt( 0, 0, 0 );
+	
 	requestAnimationFrame( animate );
 }
 

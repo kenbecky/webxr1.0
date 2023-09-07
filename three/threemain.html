@@ -13,5 +13,16 @@
 	</head>
 	<body>
 		<script type="module" src="/main.js"></script>
+		<script>
+			// 在第二个 HTML 文件中检索 SVG 数据
+			const svgData = localStorage.getItem('sharedSVG');
+			
+			// 在此可以使用 SVG 数据，例如将其插入到页面中
+			const svgContainer = document.createElement('div');
+			svgContainer.innerHTML = svgData;
+			document.body.appendChild(svgContainer);
+	
+			// 在这里你可以使用 svgData 进行操作，例如修改 SVG 元素的属性或进行其他操作
+		</script>
 	</body>
 </html>

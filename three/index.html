@@ -15,8 +15,14 @@
 		function exportSVG() {
 				// 获取SVG元素
 				var svgElement = document.getElementById("svgElement");
-
 				var svgData = new Blob([svgElement.outerHTML], { type: "image/svg+xml;charset=utf-8" });
+
+				// 将SVG内容作为URL参数传递给另一个HTML页面
+				var encodedData = encodeURIComponent(svgElement.outerHTML);
+				var url = "threemain.html?svg=" + encodedData;
+				window.location.href = url;
+
+
 
 				// 创建一个下载链接
 				var link = document.createElement("a");
@@ -31,10 +37,12 @@
 				document.body.removeChild(link);
 				URL.revokeObjectURL(link.href);
 				
-				// 将SVG内容作为URL参数传递给另一个HTML页面
-				var encodedData = encodeURIComponent(svgElement.outerHTML);
-				var url = "threemain.html?svg=" + encodedData;
-				window.location.href = url;
+				// 构建包含 svgData 的 URL
+				//const urlWithSvgData = 'threemain.html?svgData=' + encodeURIComponent(svgData);
+				// 使用该 URL 导航到第二个 HTML 页面
+				//window.location.href = urlWithSvgData;
+
+
 			}
 	</script>
 	<div>
