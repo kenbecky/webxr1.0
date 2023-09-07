@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "flow": "^0.2.3",
+    "three": "^0.156.1",
+    "three-bmfont-text": "^3.0.1",
+    "three-bvh-csg": "^0.0.10",
+    "three-gpu-pathtracer": "^0.0.16",
+    "three-mesh-bvh": "^0.6.6",
+    "three-subdivide": "^1.1.5",
+    "web-ifc": "^0.0.43"
+  },
+  "devDependencies": {
+    "vite": "^4.4.9"
+  }
+}
