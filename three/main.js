@@ -18,19 +18,15 @@ camera.position.z = 1000;
 let group; // 声明一个全局变量
 
 // instantiate a loader
-const loader = new SVGLoader();
+const svgloader = new SVGLoader();
 
-// 获取 URL 中的查询参数
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-
-const svgData = urlParams.get('svg');
 
 
 // load a SVG resource
-loader.load(
+svgloader.load(
 	// resource URL
-	'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgData),
+	'./img/drawing.svg',
+	// 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgData),
 	// called when the resource is loaded
 	function ( data ) {
 		const paths = data.paths;
@@ -41,21 +37,34 @@ loader.load(
 
 			const path = paths[ i ];
 
+			const matrix = new THREE.Matrix4();
+			matrix.makeScale(1, -1, 1); // 将Y轴翻转
+
+
 			const material = new THREE.MeshBasicMaterial( {
-				color: 0xff0000,
+				color: 0x00ff00,
 				side: THREE.DoubleSide,
 				depthWrite: false
 			} );
 
-			const shapes = SVGLoader.createShapes( path );
+			if (path.toShapes){
+				const shapes = SVGLoader.createShapes( path );
 
-			for ( let j = 0; j < shapes.length; j ++ ) {
+				for ( let j = 0; j < shapes.length; j ++ ) {
 
-				const shape = shapes[ j ];
-				const geometry = new THREE.ShapeGeometry( shape );
-				const mesh = new THREE.Mesh( geometry, material );
-				group.add( mesh );
+					const shape = shapes[ j ];
+					const geometry = new THREE.ShapeGeometry( shape );
+					const mesh = new THREE.Mesh( geometry, material );
+
+					// 应用矩阵变换到Mesh的位置和缩放属性
+					mesh.position.applyMatrix4(matrix);
+					mesh.scale.applyMatrix4(matrix);
+
+					group.add( mesh );
+				}	
 			}
+
+			
 		}
 		scene.add( group );
 

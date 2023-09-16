@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>scribby simple example</title>
+	<script src="../lib/scribby.js"></script>
+</head>
+
+<body>
+	<div>
+		<div style="background-color:#00C4FF ; width:600px;">
+			<svg id="svgElement" style="background-color: transparent;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="600" height="400" ></svg>
+		</div>
+	</div>
+	<script>
+		var scr = new Scribby(document.getElementById("svgElement"));
+
+		function exportSVG() {
+			// 获取SVG元素
+			var svgElement = document.getElementById("svgElement");
+			var svgData = new Blob([svgElement.outerHTML], { type: "image/svg+xml;charset=utf-8" });
+
+			// 将SVG内容作为URL参数传递给另一个HTML页面
+			var encodedData = encodeURIComponent(svgElement.outerHTML);
+			var url = "threemain.html?svg=" + encodedData;
+			//window.location.href = url;
+
+
+			// 创建一个下载链接
+			var link = document.createElement("a");
+			link.href = URL.createObjectURL(svgData);
+			link.download = "drawing.svg"; // 设置文件名
+
+			// 将链接添加到页面，并点击它来下载SVG文件
+			document.body.appendChild(link);
+			link.click();
+
+			// 清理资源
+			document.body.removeChild(link);
+			URL.revokeObjectURL(link.href);
+			
+			// 构建包含 svgData 的 URL
+			//const urlWithSvgData = 'threemain.html?svgData=' + encodeURIComponent(svgData);
+			// 使用该 URL 导航到第二个 HTML 页面
+			//window.location.href = urlWithSvgData;
+
+		}
+	</script>
+	<div>
+		<button onClick="exportSVG()">Next</button>
+	</div>
+  
+
+</body>
+</html> 

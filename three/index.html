@@ -1,55 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>scribby simple example</title>
-	<script src="../lib/scribby.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG畫板</title>
+    <style>
+        #drawing-board {
+            border: 1px solid black;
+        }
+    </style>
+    <script src="../lib/scribby.js"></script>
+
 </head>
-
 <body>
-	<div>
-		<div style="background-color:#00C4FF ; width:600px;">
-			<svg id="svgElement" style="background-color: transparent;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="600" height="400" ></svg>
-		</div>
-	</div>
-	<script>  var scr = new Scribby(document.getElementById("svgElement"));  </script>
-	<script>
-		function exportSVG() {
-				// 获取SVG元素
-				var svgElement = document.getElementById("svgElement");
-				var svgData = new Blob([svgElement.outerHTML], { type: "image/svg+xml;charset=utf-8" });
+    <h1>SVG畫板</h1>
+    <svg id="drawing-board" width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+        <!--<rect width="100%" height="100%" fill="white" />-->
+    </svg>
+    
+    <script>
+        const svg = document.getElementById('drawing-board');
+        let isDrawing = false;
+        let currentPath = null;
 
-				// 将SVG内容作为URL参数传递给另一个HTML页面
-				var encodedData = encodeURIComponent(svgElement.outerHTML);
-				var url = "threemain.html?svg=" + encodedData;
-				window.location.href = url;
+        svg.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            const svgPoint = getSVGPoint(e);
+            currentPath = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+            currentPath.setAttribute('stroke', 'black');
+            currentPath.setAttribute('fill', 'none');
+            currentPath.setAttribute('d', `M${svgPoint.x},${svgPoint.y}`);
+            svg.appendChild(currentPath);
+        });
 
+        svg.addEventListener('mousemove', (e) => {
+            if (!isDrawing) return;
+            const svgPoint = getSVGPoint(e);
+            const pathData = currentPath.getAttribute('d') + ` L${svgPoint.x},${svgPoint.y}`;
+            currentPath.setAttribute('d', pathData);
+        });
 
+        svg.addEventListener('mouseup', () => {
+            isDrawing = false;
+        });
 
-				// 创建一个下载链接
-				var link = document.createElement("a");
-				link.href = URL.createObjectURL(svgData);
-				//link.download = "drawing.svg"; // 设置文件名
+        svg.addEventListener('mouseleave', () => {
+            isDrawing = false;
+        });
 
-				// 将链接添加到页面，并点击它来下载SVG文件
-				document.body.appendChild(link);
-				link.click();
+        function getSVGPoint(event) {
+            const point = svg.createSVGPoint();
+            point.x = event.clientX;
+            point.y = event.clientY;
+            return point.matrixTransform(svg.getScreenCTM().inverse());
+        }
 
-				// 清理资源
-				document.body.removeChild(link);
-				URL.revokeObjectURL(link.href);
-				
-				// 构建包含 svgData 的 URL
-				//const urlWithSvgData = 'threemain.html?svgData=' + encodeURIComponent(svgData);
-				// 使用该 URL 导航到第二个 HTML 页面
-				//window.location.href = urlWithSvgData;
+        function saveSVG() {
+            const svgData = new XMLSerializer().serializeToString(svg);
+            const blob = new Blob([svgData], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
 
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'drawing.svg';
+            a.click();
 
-			}
-	</script>
-	<div>
-		<button onClick="exportSVG()">Next</button>
-	</div>
-  
+            window.location.href = "threemain.html";
+        }
 
+    </script>
+    <button onclick="saveSVG()">保存SVG</button>
 </body>
-</html> 
+</html>
