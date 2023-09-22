@@ -42,7 +42,7 @@ svgloader.load(
 
 
 			const material = new THREE.MeshBasicMaterial( {
-				color: 0x00ff00,
+				color: 0x000000,
 				side: THREE.DoubleSide,
 				depthWrite: false
 			} );
