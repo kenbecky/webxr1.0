@@ -140,17 +140,87 @@ textloader.load('three_js/examples/fonts/helvetiker_regular.typeface.json', func
 	}
 });
 
+
+
 camera.lookAt( 0, 0, 0 );
+
+let speedx = 5
+let speedy = 7
+
+let edge_top = 800
+let edge_bottom = -800
+let edge_left = -1000
+let edge_right = 1000
+
 
 function animate() {
 
 	renderer.render( scene, camera );
 
 	if (group) { // 检查 group 是否存在
-		group.rotation.y += 0.005;
+		//group.rotation.x += 0.005;
+		
+		window.addEventListener('keydown', (event) => {
+			switch (true) {
+				case event.key === 'A' || event.key === 'a':
+					edge_top = 800
+					edge_bottom = 250
+					edge_left = -1500
+					edge_right = -400
+		
+					group.position.x = -500
+					group.position.y = 400
+					break;
+				case event.key === 'B' || event.key === 'b':
+					edge_top = 800
+					edge_bottom = 250
+					edge_left = 0
+					edge_right = 1300
+		
+					group.position.x = 500
+					group.position.y = 400
+					break;
+				case event.key === 'C' || event.key === 'c':
+					edge_top = 0
+					edge_bottom = -600
+					edge_left = -1500
+					edge_right = -400
+		
+					group.position.x = -500
+					group.position.y = -400
+					break;
+				case event.key === 'D' || event.key === 'd':
+					edge_top = 0
+					edge_bottom = -600
+					edge_left = 0
+					edge_right = 1300
+		
+					group.position.x = 500
+					group.position.y = -400
+					break;
+			}
+		});
+
+		group.position.x += speedx;
+		group.position.y += speedy;
+
+		if(group.position.x >= edge_right)
+			speedx = 0-speedx;
+		else if(group.position.x < edge_left)
+			speedx = 0-speedx;
+		if(group.position.y > edge_top)
+			speedy = 0-speedy;
+		else if(group.position.y < edge_bottom)
+			speedy = 0-speedy;
+
+		console.log(`X: ${group.position.x}, Y: ${group.position.y}`);
+		//console.log(`X: ${window.innerWidth}, Y: ${window.innerHeight}`);
 	}
 	
 	requestAnimationFrame( animate );
 }
 
+
+
 animate();
+
