@@ -66,7 +66,7 @@ svgloader.load(
 
 			
 		}
-		scene.add( group );
+		//scene.add( group );
 
 	},
 	// called when loading is in progresses
@@ -138,6 +138,29 @@ textloader.load('three_js/examples/fonts/helvetiker_regular.typeface.json', func
 		// 將文字添加到場景中
 		scene.add(textMesh);
 	}
+});
+
+textloader.load('three_js/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+	// 創建文字的幾何形狀
+	const name = 'kenbecky';
+
+	const textGeometry = new TextGeometry(name, {
+		font: font,
+		size: 60, // 文字大小
+		height: 0.1, // 文字厚度
+		curveSegments: 12, // 曲線細分數
+		bevelEnabled: false // 是否啟用斜角
+	});
+
+	// 創建文字的材質
+	const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+	// 創建文字物體
+	const textMesh = new THREE.Mesh(textGeometry, material);
+	
+	// 將文字添加到場景中
+	group.add(textMesh)
+	scene.add(group)
 });
 
 
@@ -213,7 +236,7 @@ function animate() {
 		else if(group.position.y < edge_bottom)
 			speedy = 0-speedy;
 
-		console.log(`X: ${group.position.x}, Y: ${group.position.y}`);
+		//console.log(`X: ${group.position.x}, Y: ${group.position.y}`);
 		//console.log(`X: ${window.innerWidth}, Y: ${window.innerHeight}`);
 	}
 	
