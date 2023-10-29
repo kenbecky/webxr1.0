@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>camera</title>
+        <script src="https://cdn.jsdelivr.net/npm/ar.js@2.0.8/aframe/build/aframe-ar.js"></script>
+
+    </head>
+    <body>
+        <h1>camera</h1>
+        <video id="camera" autoplay></video>
+
+        <a-scene embedded arjs="sourceType: webcam;">
+            <a-marker type="pattern" url="./map.png">
+                <!-- AR内容放置在这里 -->
+                <a-box position="0 0.5 0" rotation="0 45 0" color="red"></a-box>
+            </a-marker>
+        </a-scene>
+
+        <script>
+            const video = document.getElementById('camera');
+
+            
+            navigator.mediaDevices
+            .getUserMedia({ video: true, audio: false }) // 请求访问摄像头，不需要音频
+            .then(function (stream) {
+                video.srcObject = stream;
+            })
+            .catch(function (error) {
+                console.error('访问摄像头时发生错误:', error);
+            });
+        </script>
+    </body>
+</html>
+
+

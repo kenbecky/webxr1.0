@@ -1,6 +1,9 @@
 {
   "dependencies": {
+    "@vitejs/plugin-basic-ssl": "^1.0.1",
+    "ar.js": "^2.0.8",
     "flow": "^0.2.3",
+    "http-server": "^14.1.1",
     "three": "^0.156.1",
     "three-bmfont-text": "^3.0.1",
     "three-bvh-csg": "^0.0.10",
